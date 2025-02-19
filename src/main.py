@@ -4,11 +4,13 @@ from PySide6.QtWidgets import QApplication
 from main_window import MainWindow
 from display import Display
 from info import Info
+from styles import setupTheme
 from variables import WINDOW_ICON_PATH
 
 if __name__ == '__main__':
     # Create application
     app = QApplication(sys.argv)
+    setupTheme(app)
     window = MainWindow()
 
     # Set icon
