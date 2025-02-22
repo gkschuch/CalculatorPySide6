@@ -1,6 +1,4 @@
 {
-  "editor.hover.enabled": true,
-  "workbench.startupEditor": "none",
   "code-runner.executorMap": {
     "python": "clear ; python -u"
   },
