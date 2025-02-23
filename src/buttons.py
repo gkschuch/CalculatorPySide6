@@ -36,6 +36,12 @@ class ButtonsGrid(QGridLayout):
         self.display = display
         self.info = info
         self._equation = ''
+        self._equationInitialValue = 'Sua conta'
+        self._left = None
+        self._right = None
+        self._op = None
+
+        self.equation = self._equationInitialValue
         self._makeGrid()
 
     @property
@@ -68,6 +74,10 @@ class ButtonsGrid(QGridLayout):
 
         if text == 'C':
             self._connectButtonClicked(button, self._clear)
+        if text in '+-/*':
+            self._connectButtonClicked(
+                button, self._makeSlot(self._operatorClicked, button)
+            )
 
     def _makeSlot(self, method, *args, **kwargs):
         @Slot(bool)
@@ -83,4 +93,24 @@ class ButtonsGrid(QGridLayout):
         self.display.insert(buttonText)
 
     def _clear(self):
+        self._left = None
+        self._right = None
+        self._op = None
+        self.equation = self._equationInitialValue
         self.display.clear()
+
+    def _operatorClicked(self, button: Button):
+        buttonText = button.text()  # +-/*
+        displayText = self.display.text()  # Left number _left
+        self.display.clear()  # clear display
+
+        # if the user clicked in the operator without pressing any number
+        if not isValidNumber and self._left is None:
+            return
+
+        #
+        if self._left is None:
+            self._left = float(displayText)
+
+        self._op = buttonText
+        self.equation = f'{self._left} {self._op} ??'
